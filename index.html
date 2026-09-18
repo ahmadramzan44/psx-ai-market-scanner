@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PSX AI Market Scanner</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 20px 30px;
+        }
+
+        header h1 {
+            font-size: 26px;
+        }
+
+        header p {
+            margin-top: 6px;
+            color: #9ca3af;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .top-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 14px 22px;
+            font-size: 15px;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .market-status {
+            background: white;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .status-open {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .section h2 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .stock-row {
+            display: grid;
+            grid-template-columns: 60px 1fr 150px 120px 120px;
+            align-items: center;
+            padding: 15px 10px;
+            border-top: 1px solid #e5e7eb;
+            cursor: pointer;
+        }
+
+        .stock-row:hover {
+            background: #f9fafb;
+        }
+
+        .signal {
+            font-weight: bold;
+        }
+
+        .strong-buy {
+            color: #15803d;
+        }
+
+        .buy {
+            color: #16a34a;
+        }
+
+        .watch {
+            color: #ca8a04;
+        }
+
+        .sell {
+            color: #ea580c;
+        }
+
+        .strong-sell {
+            color: #dc2626;
+        }
+
+        .empty-message {
+            color: #6b7280;
+            padding: 20px 0;
+        }
+
+        footer {
+            text-align: center;
+            color: #6b7280;
+            padding: 30px;
+        }
+
+        @media (max-width: 700px) {
+            .stock-row {
+                grid-template-columns: 40px 1fr 110px;
+            }
+
+            .stock-row div:nth-child(4),
+            .stock-row div:nth-child(5) {
+                display: none;
+            }
+
+            .top-bar {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>PSX AI Market Scanner</h1>
+    <p>Market Intelligence & Stock Analysis</p>
+</header>
+
+<div class="container">
+
+    <div class="top-bar">
+        <input
+            type="text"
+            id="stockSearch"
+            class="search-box"
+            placeholder="Search PSX stock e.g. ABL, FFC, HUBC..."
+        >
+
+        <button onclick="searchStock()">Search</button>
+
+        <button onclick="scanMarket()">Scan Market</button>
+    </div>
+
+    <div class="market-status">
+        <strong>Market Status:</strong>
+        <span class="status-open">Ready</span>
+
+        <br><br>
+
+        <strong>Last Update:</strong>
+        <span id="lastUpdate">Not connected to market data yet</span>
+    </div>
+
+    <div class="section">
+        <h2>Market Rankings</h2>
+
+        <div class="stock-row" style="font-weight:bold; cursor:default;">
+            <div>Rank</div>
+            <div>Stock</div>
+            <div>Signal</div>
+            <div>Price</div>
+            <div>Score</div>
+        </div>
+
+        <div id="stockList">
+            <div class="empty-message">
+                Market scanner is ready. Live PSX data will be connected in the next stages.
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Signal Categories</h2>
+
+        <p>🟢 <strong>STRONG BUY</strong> — strongest positive setup</p>
+        <p>🟢 <strong>BUY</strong> — positive setup</p>
+        <p>🟡 <strong>WATCH</strong> — waiting for confirmation</p>
+        <p>🟠 <strong>SELL</strong> — negative setup</p>
+        <p>🔴 <strong>STRONG SELL</strong> — strongest negative setup</p>
+    </div>
+
+</div>
+
+<footer>
+    PSX AI Market Scanner
+</footer>
+
+<script>
+
+function searchStock() {
+
+    const symbol = document
+        .getElementById("stockSearch")
+        .value
+        .trim()
+        .toUpperCase();
+
+    if (symbol === "") {
+        alert("Please enter a PSX stock symbol.");
+        return;
+    }
+
+    alert(
+        "Stock search selected: " +
+        symbol +
+        "\n\nDetailed stock analysis will be connected in the next stages."
+    );
+}
+
+
+function scanMarket() {
+
+    document.getElementById("lastUpdate").textContent =
+        "Scanner activated — data connection will be added in the next stages.";
+
+    alert(
+        "PSX Market Scanner activated.\n\n" +
+        "Automatic market data and ranking engine will be connected in the next stages."
+    );
+}
+
+</script>
+
+</body>
+</html>
