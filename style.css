@@ -1,0 +1,184 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #1f2937;
+}
+
+/* Header */
+
+header {
+    background: #111827;
+    color: white;
+    padding: 22px 30px;
+}
+
+header h1 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+/* Main container */
+
+.container {
+    max-width: 1250px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Search area */
+
+.top-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    flex: 1;
+    padding: 14px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-box:focus {
+    border-color: #2563eb;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 14px 22px;
+    font-size: 15px;
+    cursor: pointer;
+    background: #2563eb;
+    color: white;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+/* Market status */
+
+.market-status {
+    background: white;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.status-ready {
+    color: #2563eb;
+    font-weight: bold;
+}
+
+/* Sections */
+
+.section {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.section h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+/* Ranking table */
+
+.stock-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 170px 130px 120px;
+    align-items: center;
+    padding: 15px 10px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.stock-row.stock-data {
+    cursor: pointer;
+}
+
+.stock-row.stock-data:hover {
+    background: #f9fafb;
+}
+
+/* Signals */
+
+.signal {
+    font-weight: bold;
+}
+
+.strong-buy {
+    color: #15803d;
+}
+
+.buy {
+    color: #16a34a;
+}
+
+.watch {
+    color: #ca8a04;
+}
+
+.sell {
+    color: #ea580c;
+}
+
+.strong-sell {
+    color: #dc2626;
+}
+
+/* Empty message */
+
+.empty-message {
+    color: #6b7280;
+    padding: 25px 10px;
+}
+
+/* Footer */
+
+footer {
+    text-align: center;
+    color: #6b7280;
+    padding: 30px;
+    font-size: 14px;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .stock-row {
+        grid-template-columns: 45px 1fr 120px;
+    }
+
+    .stock-row div:nth-child(4),
+    .stock-row div:nth-child(5) {
+        display: none;
+    }
+
+    .top-bar {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}
