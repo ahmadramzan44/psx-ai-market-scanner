@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PSX Scoring Engine Test</title>
+
+</head>
+
+
+<body>
+
+    <h1>PSX Scoring Engine Test</h1>
+
+    <div id="result"></div>
+
+
+    <script src="scoring.js"></script>
+
+
+    <script>
+
+        const testStock = {
+
+            technical: 80,
+
+            fundamental: 75,
+
+            volumeMomentum: 70,
+
+            sectorMarket: 65,
+
+            newsEvents: 60
+
+        };
+
+
+        const result =
+            analyzeStock(testStock);
+
+
+        document.getElementById("result").innerHTML = `
+
+            <h2>Test Result</h2>
+
+            <p>
+                <strong>Final Score:</strong>
+                ${result.score}/100
+            </p>
+
+            <p>
+                <strong>Signal:</strong>
+                ${result.signal}
+            </p>
+
+            <h3>Score Breakdown</h3>
+
+            <p>
+                Technical:
+                ${result.breakdown.technical}
+            </p>
+
+            <p>
+                Fundamental:
+                ${result.breakdown.fundamental}
+            </p>
+
+            <p>
+                Volume & Momentum:
+                ${result.breakdown.volumeMomentum}
+            </p>
+
+            <p>
+                Sector & Market:
+                ${result.breakdown.sectorMarket}
+            </p>
+
+            <p>
+                News & Events:
+                ${result.breakdown.newsEvents}
+            </p>
+
+        `;
+
+    </script>
+
+</body>
+
+</html>
