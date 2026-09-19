@@ -321,6 +321,7 @@ function searchStock() {
 
 <script>
 
+    
     async function testLivePSXData() {
 
     try {
@@ -339,21 +340,60 @@ function searchStock() {
         const data =
             await response.json();
 
-        console.log("LIVE PSX DATA:", data);
 
         const abl =
             sampleStocks.find(stock =>
                 stock.symbol === "ABL"
             );
 
-        if (abl && data.price !== undefined) {
+
+        if (abl) {
+
+            abl.apiData = {
+
+                price: data.price,
+
+                change: data.change,
+
+                changePct: data.change_pct,
+
+                open: data.open,
+
+                high: data.high,
+
+                low: data.low,
+
+                previousClose: data.previous_close,
+
+                volume: data.volume,
+
+                high52: data.high_52,
+
+                low52: data.low_52,
+
+                delayed: data.delayed,
+
+                marketStatus: data.market.status,
+
+                asOf: data.as_of
+
+            };
+
 
             abl.price =
-                Number(data.price);
+                data.price;
 
         }
 
+
+        console.log(
+            "ABL STRUCTURED DATA:",
+            abl
+        );
+
+
         scanMarket();
+
 
     } catch (error) {
 
@@ -368,7 +408,6 @@ function searchStock() {
 
 
 testLivePSXData();
-
 </script>
     
 </body>
