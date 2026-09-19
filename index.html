@@ -320,7 +320,80 @@ function searchStock() {
 <script src="scoring.js"></script>
 
 <script>
+function calculateMomentumScore(
+    price,
+    previousClose,
+    changePct
+) {
 
+    if (
+        price === null ||
+        previousClose === null ||
+        previousClose === 0
+    ) {
+
+        return 50;
+
+    }
+
+
+    if (changePct >= 3) {
+
+        return 100;
+
+    }
+
+    if (changePct >= 2) {
+
+        return 90;
+
+    }
+
+    if (changePct >= 1) {
+
+        return 80;
+
+    }
+
+    if (changePct >= 0.5) {
+
+        return 70;
+
+    }
+
+    if (changePct >= 0) {
+
+        return 60;
+
+    }
+
+    if (changePct >= -0.5) {
+
+        return 50;
+
+    }
+
+    if (changePct >= -1) {
+
+        return 40;
+
+    }
+
+    if (changePct >= -2) {
+
+        return 30;
+
+    }
+
+    if (changePct >= -3) {
+
+        return 20;
+
+    }
+
+    return 10;
+
+}
     
     async function fetchStockQuote(stock) {
 
@@ -377,7 +450,12 @@ function searchStock() {
         stock.price =
             data.price;
 
-
+        stock.momentumScore = calculateMomentumScore(
+    data.price,
+    data.previous_close,
+    data.change_pct
+);
+        
         console.log(
             stock.symbol + " API DATA:",
             stock.apiData
