@@ -322,17 +322,19 @@ function searchStock() {
 <script>
 
     
-    async function testLivePSXData() {
+    async function fetchStockQuote(stock) {
 
     try {
 
         const response =
-            await fetch("https://api.psxlens.com/v1/quotes/ABL");
+            await fetch(
+                `https://api.psxlens.com/v1/quotes/${stock.symbol}`
+            );
 
         if (!response.ok) {
 
             throw new Error(
-                "API Error: " + response.status
+                "HTTP Error: " + response.status
             );
 
         }
@@ -341,64 +343,51 @@ function searchStock() {
             await response.json();
 
 
-        const abl =
-            sampleStocks.find(stock =>
-                stock.symbol === "ABL"
-            );
+        stock.apiData = {
+
+            price: data.price,
+
+            change: data.change,
+
+            changePct: data.change_pct,
+
+            open: data.open,
+
+            high: data.high,
+
+            low: data.low,
+
+            previousClose: data.previous_close,
+
+            volume: data.volume,
+
+            high52: data.high_52,
+
+            low52: data.low_52,
+
+            delayed: data.delayed,
+
+            marketStatus: data.market.status,
+
+            asOf: data.as_of
+
+        };
 
 
-        if (abl) {
-
-            abl.apiData = {
-
-                price: data.price,
-
-                change: data.change,
-
-                changePct: data.change_pct,
-
-                open: data.open,
-
-                high: data.high,
-
-                low: data.low,
-
-                previousClose: data.previous_close,
-
-                volume: data.volume,
-
-                high52: data.high_52,
-
-                low52: data.low_52,
-
-                delayed: data.delayed,
-
-                marketStatus: data.market.status,
-
-                asOf: data.as_of
-
-            };
-
-
-            abl.price =
-                data.price;
-
-        }
+        stock.price =
+            data.price;
 
 
         console.log(
-            "ABL STRUCTURED DATA:",
-            abl
+            stock.symbol + " API DATA:",
+            stock.apiData
         );
-
-
-        scanMarket();
 
 
     } catch (error) {
 
         console.error(
-            "PSX API connection failed:",
+            stock.symbol + " API ERROR:",
             error
         );
 
@@ -407,7 +396,31 @@ function searchStock() {
 }
 
 
-testLivePSXData();
+async function fetchAllStockQuotes() {
+
+    console.log(
+        "Fetching PSX stock data..."
+    );
+
+
+    for (const stock of sampleStocks) {
+
+        await fetchStockQuote(stock);
+
+    }
+
+
+    console.log(
+        "All stock quotes fetched."
+    );
+
+
+    scanMarket();
+
+}
+
+
+fetchAllStockQuotes();
 </script>
     
 </body>
