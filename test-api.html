@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PSX API Test</title>
+
+</head>
+
+<body>
+
+    <h1>PSX API Test</h1>
+
+    <p id="status">Loading ABL data...</p>
+
+    <pre id="result"></pre>
+
+
+    <script>
+
+        const API_URL =
+            "https://api.psxlens.com/v1/quotes/ABL";
+
+
+        fetch(API_URL)
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "HTTP Error: " + response.status
+                    );
+
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                document.getElementById("status").textContent =
+                    "API connection successful.";
+
+                document.getElementById("result").textContent =
+                    JSON.stringify(data, null, 2);
+
+            })
+
+            .catch(error => {
+
+                document.getElementById("status").textContent =
+                    "API connection failed.";
+
+                document.getElementById("result").textContent =
+                    error.message;
+
+                console.error(error);
+
+            });
+
+    </script>
+
+</body>
+
+</html>
