@@ -319,5 +319,43 @@ function searchStock() {
 <script src="config.js"></script>
 <script src="scoring.js"></script>
 
+<script>
+
+    async function testLivePSXData() {
+
+        try {
+
+            const response =
+                await fetch("https://api.psxlens.com/v1/quotes/ABL");
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "API Error: " + response.status
+                );
+
+            }
+
+            const data =
+                await response.json();
+
+            console.log("LIVE PSX DATA:", data);
+
+        } catch (error) {
+
+            console.error(
+                "PSX API connection failed:",
+                error
+            );
+
+        }
+
+    }
+
+
+    testLivePSXData();
+
+</script>
+    
 </body>
 </html>
