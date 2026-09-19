@@ -187,79 +187,136 @@ function getSignal(score) {
 
 function scanMarket() {
 
-    const stockList =
-        document.getElementById("stockList");
+    const rankingList =
+        document.getElementById("rankingList");
 
-    stockList.innerHTML = "";
+    if (!rankingList) {
+        return;
+    }
+
 
     const sortedStocks =
         [...sampleStocks].sort(
             (a, b) => b.score - a.score
         );
 
-    sortedStocks.forEach((stock, index) => {
 
-        const signal =
-            getSignal(stock.score);
+    rankingList.innerHTML = `
 
-        const row =
-            document.createElement("div");
+        <div class="stock-row ranking-header">
 
-        row.className =
-            "stock-row stock-data";
+            <div>Rank</div>
 
-        row.innerHTML = `
+            <div>Stock</div>
 
-            <div>
-                ${index + 1}
-            </div>
+            <div>Price</div>
 
-            <div>
-                <strong>${stock.symbol}</strong>
-                <br>
-                <small>${stock.name}</small>
-            </div>
+            <div>Change %</div>
 
-            <div class="signal ${signal.className}">
-                ${signal.text}
-            </div>
+            <div>Score</div>
 
-            <div>
-                Rs. ${stock.price.toFixed(2)}
-            </div>
+            <div>Signal</div>
 
-            <div>
-                <strong>${stock.score}</strong>/100
-            </div>
+        </div>
 
-        `;
+    `;
 
-        row.onclick = function() {
 
-            alert(
-                stock.symbol +
-                "\\n\\n" +
-                "Signal: " +
-                signal.text +
-                "\\n" +
-                "Score: " +
-                stock.score +
-                "/100" +
-                "\\n\\n" +
-                "Detailed analysis page will be connected in the next stages."
-            );
+    sortedStocks.forEach(
+        (stock, index) => {
 
-        };
+            const signal =
+                getSignal(stock.score);
 
-        stockList.appendChild(row);
 
-    });
+            const signalClass =
+                signal
+                    .toLowerCase()
+                    .replace(" ", "-");
 
-    document.getElementById("lastUpdate").textContent =
-        "Scanner test completed";
+
+            let changeText = "-";
+            let changeClass = "";
+
+
+            if (
+                stock.apiData &&
+                stock.apiData.changePct !== null &&
+                stock.apiData.changePct !== undefined
+            ) {
+
+                const change =
+                    Number(stock.apiData.changePct);
+
+
+                changeText =
+                    (change >= 0 ? "+" : "") +
+                    change.toFixed(2) +
+                    "%";
+
+
+                changeClass =
+                    change >= 0
+                        ? "change-positive"
+                        : "change-negative";
+
+            }
+
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "stock-row stock-data";
+
+
+            row.onclick = function () {
+
+                searchStock(stock.symbol);
+
+            };
+
+
+            row.innerHTML = `
+
+                <div>
+                    ${index + 1}
+                </div>
+
+                <div>
+                    <strong>${stock.symbol}</strong><br>
+                    ${stock.name}
+                </div>
+
+                <div>
+                    ${stock.price !== null
+                        ? Number(stock.price).toFixed(2)
+                        : "-"
+                    }
+                </div>
+
+                <div class="${changeClass}">
+                    ${changeText}
+                </div>
+
+                <div>
+                    ${stock.score}
+                </div>
+
+                <div class="signal ${signalClass}">
+                    ${signal}
+                </div>
+
+            `;
+
+
+            rankingList.appendChild(row);
+
+        }
+    );
 
 }
-
 function searchStock() {
 
     const symbol =
