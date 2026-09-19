@@ -105,10 +105,26 @@ button:hover {
 
 .stock-row {
     display: grid;
-    grid-template-columns: 60px 1fr 170px 130px 120px;
+    grid-template-columns: 60px 1.5fr 120px 120px 100px 130px;
     align-items: center;
     padding: 15px 10px;
     border-top: 1px solid #e5e7eb;
+}
+
+.ranking-header {
+    font-weight: bold;
+    background: #f9fafb;
+    border-top: none;
+}
+
+.change-positive {
+    color: #15803d;
+    font-weight: bold;
+}
+
+.change-negative {
+    color: #dc2626;
+    font-weight: bold;
 }
 
 .stock-row.stock-data {
@@ -118,7 +134,6 @@ button:hover {
 .stock-row.stock-data:hover {
     background: #f9fafb;
 }
-
 /* Signals */
 
 .signal {
