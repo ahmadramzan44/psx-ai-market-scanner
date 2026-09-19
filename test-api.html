@@ -8,28 +8,29 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>PSX API Test</title>
+    <title>PSX API Data Test</title>
 
 </head>
 
 <body>
 
-    <h1>PSX API Test</h1>
+    <h1>ABL API Data</h1>
 
-    <p id="status">Loading ABL data...</p>
-
-    <pre id="result"></pre>
+    <div id="result">
+        Loading...
+    </div>
 
 
     <script>
 
-        const API_URL =
-            "https://api.psxlens.com/v1/quotes/ABL";
+        async function loadABL() {
 
+            try {
 
-        fetch(API_URL)
-
-            .then(response => {
+                const response =
+                    await fetch(
+                        "https://api.psxlens.com/v1/quotes/ABL"
+                    );
 
                 if (!response.ok) {
 
@@ -39,31 +40,41 @@
 
                 }
 
-                return response.json();
+                const data =
+                    await response.json();
 
-            })
 
-            .then(data => {
+                document.getElementById("result").innerHTML = `
 
-                document.getElementById("status").textContent =
-                    "API connection successful.";
+                    <h2>Raw API Response</h2>
 
-                document.getElementById("result").textContent =
-                    JSON.stringify(data, null, 2);
+                    <pre>
+${JSON.stringify(data, null, 2)}
+                    </pre>
 
-            })
+                `;
 
-            .catch(error => {
 
-                document.getElementById("status").textContent =
-                    "API connection failed.";
+                console.log("ABL API DATA:", data);
 
-                document.getElementById("result").textContent =
-                    error.message;
+            }
+
+            catch (error) {
+
+                document.getElementById("result").innerHTML =
+
+                    "<p>API Error: " +
+                    error.message +
+                    "</p>";
 
                 console.error(error);
 
-            });
+            }
+
+        }
+
+
+        loadABL();
 
     </script>
 
